@@ -8,6 +8,10 @@ api = Api(app)
 
 full_df = pd.read_csv('./test_df.csv')
 
+class Test(Resource):
+    def get(self):
+        return {"sweet potatoes" : "sweet"}
+
 class Recommender(Resource):
     def get(self):
         items = request.args
@@ -46,6 +50,7 @@ class Ingredients_Recipe(Resource):
 
 api.add_resource(Recommender, '/recommend')
 api.add_resource(Ingredients_Recipe, '/recipe')
+api.add_resource(Testing, '/test')
 
 if __name__ == '__main__':
     app.run(debug=True)
