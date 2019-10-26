@@ -6,7 +6,7 @@ from flask_restful import Resource, Api
 app = Flask(__name__)
 api = Api(app)
 
-full_df = pd.read_csv('../data/test_df.csv')
+full_df = pd.read_csv('./test_df.csv')
 
 class Recommender(Resource):
     def get(self):
