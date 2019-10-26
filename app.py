@@ -11,8 +11,9 @@ full_df = pd.read_csv('../data/test_df.csv')
 class Recommender(Resource):
     def get(self):
         items = request.args
-        ingredients = items.get('ing', -1)
+        ingredients = items.get('ing', '')
         ingredients = ingredients.split(',')
+        ingredients = [' '.join(x.split('_')) for x in ingredients]
         n = items.get('n', 10)
         
         similarity = np.zeros(len(full_df))
