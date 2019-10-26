@@ -10,18 +10,41 @@ full_df = pd.read_csv('../data/test_df.csv')
 
 class Recommender(Resource):
     def get(self):
-        items = request.args['ings']
-        food_items = items.split(',')
-        output = np.zeros(len(full_df))
-        for food in food_items:
-            output += full_df[food]
-
-        food_sim = pd.DataFrame({'similarity':output})
-        top_10 = list(food_sim.sort_values(by=['similarity'], ascending=False).index)
+        items = request.args
+        ingredients = items.get('ing', -1)
+        ingredients = ingredients.split(',')
+        n = items.get('n', 10)
         
-        return {'data':list([full_df.iloc[top_10].values[0][9]])}
+        similarity = np.zeros(len(full_df))
+        for ing in ingredients:
+            similarity += full_df[ing]
+
+        food_sim = pd.DataFrame({'similarity':similarity})
+        top_n = list(food_sim.sort_values(by=['similarity'], ascending=False).index)[:n]
+        top_meals = full_df.iloc[top_n]
+        
+        
+        output = {}
+        output['title'] = list(top_meals['title'].values)
+        output['rating'] = list(top_meals['rating'].values)
+        output['index'] = top_n  
+        return output
+
+class Ingredients_Recipe(Resource):
+    def get(self):
+        items = request.args
+        idx = int(items.get('index', -1))
+        recipe = full_df.iloc[idx]
+        
+        output = {}
+        output['directions'] = recipe['directions']
+        output['ingredients'] = recipe['ingredients']
+        output['description'] = recipe['desc'] 
+        return output
+
 
 api.add_resource(Recommender, '/recommend')
+api.add_resource(Ingredients_Recipe, '/recipe')
 
 if __name__ == '__main__':
     app.run(debug=True)
