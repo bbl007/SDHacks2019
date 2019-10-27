@@ -65,6 +65,10 @@ def recipe():
     output = {}
     output['directions'] = recipe['directions']
     output['ingredients'] = recipe['ingredients']
+    output['description'] = recipe['desc']
+    output['rating'] = recipe['rating']
+    output['title'] = recipe['title']
+    
     return output
 
 if __name__ == '__main__':
