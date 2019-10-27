@@ -16,15 +16,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/recipe_name"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:fontFamily="sans-serif-smallcaps"
-                    android:text="Moist briskety moist brisketymoist brisketymoist brisketymoist brisketymoist briskety"
                     android:textColor="#000"
                     android:textSize="18sp" />
 
@@ -32,8 +30,6 @@
                     android:id="@+id/recipe_rating"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-smallcaps"
-                    android:text="5.0"
                     android:textColor="#555" />
             </LinearLayout>
         </LinearLayout>
