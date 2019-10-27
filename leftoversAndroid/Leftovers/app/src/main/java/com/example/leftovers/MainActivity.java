@@ -100,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //TODO: switch to menu activity
+                Intent openMenu = new Intent(MainActivity.this, MenuActivity.class);
+                startActivity(openMenu);
             }
         });
 
