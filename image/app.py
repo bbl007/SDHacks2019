@@ -65,7 +65,7 @@ def recipe():
     output = {}
     output['directions'] = recipe['directions']
     output['ingredients'] = recipe['ingredients']
-    output['description'] = recipe['desc']
+    output['description'] = recipe['desc'] if pd.notnull(recipe['desc']) else ''
     output['rating'] = recipe['rating']
     output['title'] = recipe['title']
     
