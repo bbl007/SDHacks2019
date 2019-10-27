@@ -47,7 +47,7 @@
                     android:layout_weight=".4"
                     android:backgroundTint="#FFFF"
                     android:completionThreshold="2"
-                    android:fontFamily="sans-serif-smallcaps"
+                    android:fontFamily="sans-serif"
                     android:hint="ingredient name"
                     android:textColor="#FFFFFF"
                     android:textColorHint="#E1FFFFFF" />
@@ -60,7 +60,7 @@
                     android:layout_weight="1"
                     android:bottomLeftRadius="15dp"
                     android:bottomRightRadius="15dp"
-                    android:fontFamily="sans-serif-smallcaps"
+                    android:fontFamily="sans-serif"
                     android:text="Add"
                     android:topLeftRadius="15dp"
                     android:topRightRadius="15dp" />
@@ -69,7 +69,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/ingred_list"
                 android:layout_width="match_parent"
-                android:layout_height="520dp"
+                android:layout_height="600dp"
                 android:layout_marginTop="10dp"
                 android:background="#FFFFFF"
                 android:paddingLeft="20dp"
@@ -90,7 +90,7 @@
             android:layout_marginBottom="10dp"
             android:bottomLeftRadius="15dp"
             android:bottomRightRadius="15dp"
-            android:fontFamily="sans-serif-smallcaps"
+            android:fontFamily="sans-serif"
             android:onClick="toRecipeList"
             android:text="Continue"
             android:topLeftRadius="15dp"
