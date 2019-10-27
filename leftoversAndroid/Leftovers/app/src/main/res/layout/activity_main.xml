@@ -44,6 +44,7 @@
                     android:id="@+id/autoCompleteIngred"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
                     android:layout_weight=".4"
                     android:backgroundTint="#FFFF"
                     android:completionThreshold="2"
@@ -56,6 +57,7 @@
                     android:id="@+id/add_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
                     android:layout_weight="1"
                     android:bottomLeftRadius="15dp"
                     android:bottomRightRadius="15dp"
@@ -68,9 +70,13 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/ingred_list"
                 android:layout_width="match_parent"
-                android:layout_height="510dp"
-                android:layout_marginTop="20dp"
-                android:background="#FFFF" />
+                android:layout_height="520dp"
+                android:layout_marginTop="10dp"
+                android:background="#FFFFFF"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="30dp" />
 
         </LinearLayout>
 
@@ -79,10 +85,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|fill"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
             android:bottomLeftRadius="15dp"
             android:bottomRightRadius="15dp"
             android:fontFamily="sans-serif-smallcaps"
