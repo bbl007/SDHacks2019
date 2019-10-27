@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "935367116122",
+    "firebase_url": "https://leftovers-4f3e2.firebaseio.com",
+    "project_id": "leftovers-4f3e2",
+    "storage_bucket": "leftovers-4f3e2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:935367116122:android:a2672b8f430268090a1f63",
+        "android_client_info": {
+          "package_name": "com.example.leftovers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "935367116122-ffs62tb0a6bn741e54g8jitvij6dj7v0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDn_ZItCAPLj7CPbe2k_GAmY5VmiHx9kuo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "935367116122-ffs62tb0a6bn741e54g8jitvij6dj7v0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
