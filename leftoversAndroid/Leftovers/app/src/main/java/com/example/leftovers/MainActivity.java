@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ToggleButton toggleButton;
     private Button addBtn;
+    private ImageButton menuBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +93,17 @@ public class MainActivity extends AppCompatActivity {
                 addIngredient();
             }
         });
+
+        menuBtn = (ImageButton) findViewById(R.id.imageButton_menu);
+        // Shows settings when pressing the Settings Button
+        menuBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: switch to menu activity
+            }
+        });
+
+
 
         toggleButton = (ToggleButton) findViewById(R.id.toggleButton);
 
