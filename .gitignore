@@ -1,2 +1,4 @@
 *.csv
 *.ipynb
+leftoversAndroid/Leftovers/.idea/*
+leftoversAndroid/Leftovers/app/.idea/*
