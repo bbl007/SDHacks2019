@@ -5,11 +5,14 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ResultsActivity" >
+    tools:context=".ResultsActivity">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -94,6 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
+                android:layout_marginBottom="100dp"
                 android:fontFamily="@font/arbutus_slab"
                 android:text="First moist that brisket, then moist some more brisket. Pour yourself a tall glass of moist brisket. Have a seat at the moist brisket table with your family of moist briskets and enjoy your Moist brisket with moist briskety sauce and a side of moist brisket."
                 android:textSize="12sp" />
