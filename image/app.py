@@ -2,15 +2,9 @@ import os
 import pandas as pd
 import numpy as np
 from flask import Flask, request
-#from flask_restful import Resource, Api
-#import firebase_admin
-#from firebase_admin import credentials
-
-#cred = credentials.Certificate("ServiceAccountKey.json")
-#firebase_admin.initialize_app(cred)
 
 app = Flask(__name__)
-#api = Api(app)
+
 
 full_df = pd.read_csv('https://raw.githubusercontent.com/bbl007/SDHacks2019/master/image/full_df.csv')
 
@@ -24,7 +18,7 @@ def test():
     target = os.environ.get('TARGET', 'World')
     return 'Test {}!\n'.format(target)
 
-#class Recommender(Resource):
+
 @app.route('/recommend')
 def recommend():
     items = request.args
@@ -65,6 +59,10 @@ def recipe():
     output = {}
     output['directions'] = recipe['directions']
     output['ingredients'] = recipe['ingredients']
+    output['description'] = recipe['desc'] if pd.notnull(recipe['desc']) else ''
+    output['rating'] = recipe['rating']
+    output['title'] = recipe['title']
+    
     return output
 
 if __name__ == '__main__':
