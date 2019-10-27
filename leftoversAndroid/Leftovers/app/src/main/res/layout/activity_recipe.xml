@@ -28,7 +28,8 @@
             android:fontFamily="sans-serif-smallcaps"
             android:text="Recipes"
             android:textColor="#FFFFFF"
-            android:textSize="35dp" />
+            android:textSize="35dp"
+            android:textStyle="bold" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"

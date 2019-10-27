@@ -24,7 +24,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="8dp"
                     android:fontFamily="sans-serif-smallcaps"
-                    android:text="Moist briskety moist brisketymoist brisketymoist brisketymoist brisketymoist briskety"
+                    android:text="Moist brisket with moist briskety sauce and a side of moist brisket"
                     android:textColor="#000"
                     android:textSize="18sp" />
 
