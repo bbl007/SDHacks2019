@@ -1,56 +1,70 @@
+import os
 import pandas as pd
 import numpy as np
 from flask import Flask, request
-from flask_restful import Resource, Api
+#from flask_restful import Resource, Api
+#import firebase_admin
+#from firebase_admin import credentials
+
+#cred = credentials.Certificate("ServiceAccountKey.json")
+#firebase_admin.initialize_app(cred)
 
 app = Flask(__name__)
-api = Api(app)
+#api = Api(app)
 
 full_df = pd.read_csv('./test_df.csv')
 
-class Test(Resource):
-    def get(self):
-        return {"sweet potatoes" : "sweet"}
+@app.route('/')
+def hello_world():
+    target = os.environ.get('TARGET', 'World')
+    return 'Hello {}!\n'.format(target)
 
-class Recommender(Resource):
-    def get(self):
-        items = request.args
-        ingredients = items.get('ing', '')
-        ingredients = ingredients.split(',')
-        ingredients = [' '.join(x.split('_')) for x in ingredients]
-        n = items.get('n', 10)
-        
-        similarity = np.zeros(len(full_df))
-        for ing in ingredients:
-            similarity += full_df[ing]
+@app.route('/test')
+def test():
+    target = os.environ.get('TARGET', 'World')
+    return 'Test {}!\n'.format(target)
 
-        food_sim = pd.DataFrame({'similarity':similarity})
-        top_n = list(food_sim.sort_values(by=['similarity'], ascending=False).index)[:n]
-        top_meals = full_df.iloc[top_n]
-        
-        
-        output = {}
-        output['title'] = list(top_meals['title'].values)
-        output['rating'] = list(top_meals['rating'].values)
-        output['index'] = top_n  
-        return output
+#class Recommender(Resource):
+@app.route('/recommend')
+def get1():
+    items = request.args
+    ingredients = items.get('ing', '')
+    ingredients = ingredients.split(',')
+    ingredients = [' '.join(x.split('_')) for x in ingredients]
+    n = items.get('n', 10)
+    
+    similarity = np.zeros(len(full_df))
+    for ing in ingredients:
+        similarity += full_df[ing]
 
-class Ingredients_Recipe(Resource):
-    def get(self):
-        items = request.args
-        idx = int(items.get('index', -1))
-        recipe = full_df.iloc[idx]
-        
-        output = {}
-        output['directions'] = recipe['directions']
-        output['ingredients'] = recipe['ingredients']
-        output['description'] = recipe['desc'] 
-        return output
+    food_sim = pd.DataFrame({'similarity':similarity})
+    top_n = list(food_sim.sort_values(by=['similarity'], ascending=False).index)[:n]
+    top_meals = full_df.iloc[top_n]
+    
+    
+    output = {}
+    output['title'] = list(top_meals['title'].values)
+    output['rating'] = list(top_meals['rating'].values)
+    output['index'] = top_n  
+    return output
+
+#class Ingredients_Recipe(Resource):
+@app.route('/recipe')
+def get2():
+    items = request.args
+    idx = int(items.get('index', -1))
+    recipe = full_df.iloc[idx]
+    
+    output = {}
+    output['directions'] = recipe['directions']
+    output['ingredients'] = recipe['ingredients']
+    output['description'] = recipe['desc'] 
+    return output
 
 
-api.add_resource(Recommender, '/recommend')
-api.add_resource(Ingredients_Recipe, '/recipe')
-api.add_resource(Testing, '/test')
+#api.add_resource(Recommender, '/recommend')
+#api.add_resource(Ingredients_Recipe, '/recipe')
+#api.add_resource(Testing, '/test')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))
