@@ -27,7 +27,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -52,7 +51,6 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //TODO: logout and switch to login screen
-                FirebaseAuth.getInstance().signOut();
                 Intent logout = new Intent(MenuActivity.this, LoginActivity.class);
                 startActivity(logout);
             }

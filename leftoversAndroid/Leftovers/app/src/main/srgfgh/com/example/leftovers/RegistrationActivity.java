@@ -26,7 +26,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -79,10 +78,14 @@ public class RegistrationActivity extends AppCompatActivity {
                                         DocumentReference userDocRef = FirebaseFirestore.getInstance().collection("Users").document(userUID);
 
                                         //BEGIN INITIALIZING DATABASE
-                                        HashMap<String, Object> favorites = new HashMap<>();
-                                        favorites.put("favsList", new ArrayList<String>());
+                                        HashMap<String, Object> userFilters = new HashMap<>();
+                                        userFilters.put("birdFilter", false);
+                                        userFilters.put("limeFilter", false);
+                                        userFilters.put("spinFilter", false);
+                                        userFilters.put("bikeFilter", false);
+                                        userFilters.put("scooterFilter", false);
 
-                                        userDocRef.set(favorites).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        userDocRef.set(userFilters).addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
                                                 Log.d("SignInSuccess", "Settings Saved!");
@@ -123,7 +126,7 @@ public class RegistrationActivity extends AppCompatActivity {
         //When user clicks button, it goes back to login page
         userLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
+                startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
                 finish();
             }
         });

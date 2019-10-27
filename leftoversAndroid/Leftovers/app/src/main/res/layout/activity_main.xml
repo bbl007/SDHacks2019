@@ -101,8 +101,8 @@
                 android:layout_marginRight="20dp"
                 android:fontFamily="sans-serif"
                 android:text="ToggleButton"
-                android:textOff="Emphasize Ingredient Usage OFF"
-                android:textOn="Emphasize Ingredient Usage ON" />
+                android:textOff="Buy less items on"
+                android:textOn="buy less items off" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/ingred_list"

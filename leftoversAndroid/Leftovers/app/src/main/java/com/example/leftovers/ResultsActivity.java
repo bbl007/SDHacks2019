@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.android.volley.Request;
@@ -17,19 +18,20 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.io.FileReader;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.ArrayList;
+
+import static com.google.firebase.auth.FirebaseAuth.getInstance;
 
 
 public class ResultsActivity extends AppCompatActivity {
@@ -37,6 +39,8 @@ public class ResultsActivity extends AppCompatActivity {
     TextView titleText, ratingText, descText, ingText, insnText;
 
     ToggleButton favs;
+
+    private FirebaseAuth mAuth;
 
     String responseData;
     Recipe newRecipe;
@@ -46,13 +50,15 @@ public class ResultsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
+        mAuth = getInstance();
+
         titleText = findViewById(R.id.recipe_title);
         ratingText = findViewById(R.id.rating_text);
         descText = findViewById(R.id.description_text);
         ingText = findViewById(R.id.ingredients_text);
         insnText = findViewById(R.id.instructions_text);
 
-        favs = findViewById(R.id.toggleButton);
+        favs = findViewById(R.id.toggleButton2);
 
         Intent currIntent = getIntent();
         String recInd = (currIntent.getExtras().getString("chosen"));
@@ -93,6 +99,31 @@ public class ResultsActivity extends AppCompatActivity {
                             descText.setText(newRecipe.getDescription());
                             insnText.setText(newRecipe.getInstructions());
 
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                            final String userUID = user.getUid();
+                            System.out.println(userUID);
+                            final DocumentReference userDocRef = FirebaseFirestore.getInstance().collection("Users").document(userUID);
+
+                            userDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    if (documentSnapshot.exists()) {
+                                        try {
+                                            ArrayList<String> favorites = (ArrayList<String>) documentSnapshot.get("favsList");
+                                            if(favorites.contains(newRecipe.getIndex()+"")) {
+                                                favs.setChecked(true);
+                                            }
+                                        } catch (Exception e) {
+                                            Toast.makeText(ResultsActivity.this, e.toString(),
+                                                    Toast.LENGTH_LONG).show();
+
+                                        }
+                                    }
+                                }
+                            });
+
                         }
 
                     }
@@ -105,8 +136,64 @@ public class ResultsActivity extends AppCompatActivity {
 
         queue.add(stringRequest);
 
-        
+
+
+
 
     }
 
+    protected void addFavs(View view){
+
+        FirebaseUser user = mAuth.getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        final String userUID = user.getUid();
+        System.out.println(userUID);
+        final DocumentReference userDocRef = FirebaseFirestore.getInstance().collection("Users").document(userUID);
+
+        if(favs.isChecked()){
+            userDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if (documentSnapshot.exists()) {
+                        try {
+                            ArrayList<String> favorites = (ArrayList<String>) documentSnapshot.get("favsList");
+                            favorites.add(newRecipe.getIndex() + "");
+                            userDocRef.update("favsList", favorites);
+                        } catch (Exception e) {
+                            Toast.makeText(ResultsActivity.this, e.toString(),
+                                    Toast.LENGTH_LONG).show();
+                            FirebaseAuth.getInstance().signOut();
+
+                            startActivity(new Intent(ResultsActivity.this, LoginActivity.class));
+                            finish();
+                        }
+                    }
+                }
+            });
+        } else {
+            userDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if (documentSnapshot.exists()) {
+                        try {
+                            ArrayList<String> favorites = (ArrayList<String>) documentSnapshot.get("favsList");
+                            favorites.remove(newRecipe.getIndex() + "");
+                            userDocRef.update("favsList", favorites);
+                        } catch (Exception e) {
+                            Toast.makeText(ResultsActivity.this, e.toString(),
+                                    Toast.LENGTH_LONG).show();
+
+                            FirebaseAuth.getInstance().signOut();
+
+                            startActivity(new Intent(ResultsActivity.this, LoginActivity.class));
+                            finish();
+                        }
+                    }
+                }
+            });
+
+        }
+
+    }
 }

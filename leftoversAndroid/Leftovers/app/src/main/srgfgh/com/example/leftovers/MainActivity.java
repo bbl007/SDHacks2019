@@ -268,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 1; i < ingMatches.size(); i++) {
             String match = ingMatches.get(i);
 
-            requestStr = requestStr + "," + match;
+            requestStr = "," + match;
         }
 
         if(toggleButton.isChecked()) {

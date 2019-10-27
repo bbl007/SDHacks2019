@@ -75,17 +75,6 @@
             android:onClick="launchRegistration"
             android:text="CREATE ACCOUNT" />
 
-        <TextView
-            android:id="@+id/forgotPass"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:onClick="forgotPass"
-            android:text="Forgot password?"
-            android:textColor="#d3d3d3" />
     </LinearLayout>
 
     <TextView
