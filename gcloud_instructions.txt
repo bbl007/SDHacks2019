@@ -1,0 +1,4 @@
+gcloud init			#access gcloud
+gcloud builds submit --tag gcr.io/leftovers-4f3e2/working		#build the docker
+gcloud beta run deploy --image gcr.io/leftovers-4f3e2/working --platform managed		#deploy the image
+
