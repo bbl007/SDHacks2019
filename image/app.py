@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 
 full_df = pd.read_csv('https://raw.githubusercontent.com/bbl007/SDHacks2019/master/image/full_df.csv')
+val_ser = full_df.iloc[:, 7:].sum(axis=1)
 
 @app.route('/')
 def hello_world():
@@ -31,8 +32,13 @@ def recommend():
     for ing in ingredients:
         similarity += full_df[ing]
         
+    no_extra = items.get('no_extra', 0)
+    if no_extra:
+        similarity -= val_ser
+        
     food_sim = pd.DataFrame({'similarity':similarity})
-    top_n = list(food_sim.sort_values(by=['similarity'], ascending=False).index)[:n]
+    sorted_food = food_sim.sort_values(by=['similarity'], ascending=False)
+    top_n = list(sorted_food.index)[:n]
     top_meals = full_df.iloc[top_n]
     
     title = list(top_meals['title'].values)
