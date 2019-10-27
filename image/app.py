@@ -41,10 +41,18 @@ def recommend():
     top_n = list(food_sim.sort_values(by=['similarity'], ascending=False).index)[:n]
     top_meals = full_df.iloc[top_n]
     
-    output = {}
-    output['title'] = list(top_meals['title'].values)
-    output['rating'] = list(top_meals['rating'].values)
-    output['index'] = top_n  
+    title = list(top_meals['title'].values)
+    rating = list(top_meals['rating'].values)
+    index = top_n
+    output_list = []
+    for i in range(len(index)):
+        temp = {}    
+        temp['title'] = title[i]
+        temp['rating'] = rating[i]
+        temp['index'] = index[i]
+        output_list.append(temp)
+        
+    output = {'items':output_list}
     return output
 
 

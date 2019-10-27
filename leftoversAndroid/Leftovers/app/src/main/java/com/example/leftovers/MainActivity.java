@@ -1,5 +1,6 @@
 package com.example.leftovers;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,11 +10,28 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,11 +41,18 @@ public class MainActivity extends AppCompatActivity {
     private List<String> ingredients;
     private ArrayList<String> ingMatches;
     private String currIng;
+    private String responseData;
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private AutoCompleteTextView typeIngredient;
+
+    private ArrayList<Integer> indices;
+    private ArrayList<Double> ratings;
+    private ArrayList<String> titles;
+
+    private Button addBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +69,28 @@ public class MainActivity extends AppCompatActivity {
         typeIngredient.setAdapter(adapter);
         typeIngredient.setInputType(InputType.TYPE_CLASS_TEXT);
 
+        typeIngredient.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                System.out.println(actionId);
+                System.out.println(event);
 
+                if( actionId == EditorInfo.IME_ACTION_NEXT && event == null) {
+                    addIngredient();
+                    handled = true;
+                }
+                return handled;
+            }
+        });
+
+        addBtn = (Button) findViewById(R.id.add_btn);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addIngredient();
+            }
+        });
 
         // Scrollable ingredients list
         recyclerView = (RecyclerView) findViewById(R.id.ingred_list);
@@ -61,7 +107,93 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    protected void addIngredient(View view){
+    protected void toRecipeList(View view){
+        if(ingMatches.size() > 0){
+            String requestStr = getRequestStr();
+
+
+            final TextView textView = (TextView) findViewById(R.id.text);
+            // ...
+
+            // Instantiate the RequestQueue.
+            RequestQueue queue = Volley.newRequestQueue(this);
+            String url ="https://test1-u55kjwwuea-uc.a.run.app" + requestStr;
+
+            // Request a string response from the provided URL.
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            // Display the first 500 characters of the response string.
+                            Log.d("RESPONSE:", response);
+                            responseData = response;
+
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("ERROR:", "That didn't work!");
+                }
+            });
+
+            // Add the request to the RequestQueue.
+            queue.add(stringRequest);
+
+
+            if(responseData != null) {
+
+                Toast.makeText(this, "HELLO" + responseData.indexOf(']'), Toast.LENGTH_LONG).show();
+
+
+                System.out.println("LAUNCH RECIPES");
+                Intent launchRecipes = new Intent(this, RecipeActivity.class);
+                startActivity(launchRecipes);
+            } else {
+                Toast.makeText(this, "Failed to get response", Toast.LENGTH_SHORT).show();
+            }
+
+        } else {
+            Toast.makeText(this, "Add Ingredients", Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
+/*
+    private void jsonParse() {
+
+        String url = "https://api.myjson.com/bins/kp9wz";
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("indices");
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject employee = jsonArray.getJSONObject(i);
+
+                                String firstName = employee.getString("indices");
+                                int age = employee.getInt("age");
+                                String mail = employee.getString("mail");
+
+                                mTextViewResult.append(firstName + ", " + String.valueOf(age) + ", " + mail + "\n\n");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+
+        mQueue.add(request);
+    }
+*/
+    protected void addIngredient(){
         currIng = typeIngredient.getText().toString();
         if(!currIng.equals("")) {
             if (!ingMatches.contains(currIng)) {
@@ -80,6 +212,8 @@ public class MainActivity extends AppCompatActivity {
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
         System.out.println(ingMatches);
+        typeIngredient.selectAll();
+
     }
 
     private ArrayList<String> autoComplete(String currStr){
@@ -106,4 +240,15 @@ public class MainActivity extends AppCompatActivity {
             mAdapter.notifyDataSetChanged();
         }
     };
+
+    private String getRequestStr(){
+        String requestStr = "/recommend?ing=" + ingMatches.get(0);
+        for(String match: ingMatches) {
+            requestStr = requestStr + "," + match;
+        }
+
+        requestStr = requestStr.replace(" ", "_");
+        System.out.println(requestStr);
+        return requestStr;
+    }
 }
