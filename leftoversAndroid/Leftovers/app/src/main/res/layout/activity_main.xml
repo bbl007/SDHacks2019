@@ -72,9 +72,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:fontFamily="sans-serif"
                 android:text="ToggleButton"
-                android:textOff="Emphasize Ingreidient Usage OFF"
-                android:textOn="Emphasize Ingreidient Usage ON" />
+                android:textOff="Emphasize Ingredient Usage OFF"
+                android:textOn="Emphasize Ingredient Usage ON" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/ingred_list"
