@@ -21,26 +21,21 @@ public class RecipeActivity extends AppCompatActivity {
 
     private Recipe chosen;
 
-    List<Recipe> recipeList;
+    ArrayList<Recipe> recipeList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
 
-        recipeList = new ArrayList<>();
+
+
+        recipeList = (ArrayList<Recipe>) getIntent().getSerializableExtra("recipes");
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        recipeList.add(new Recipe(
-           0, "BLT", 5
-        ));
-
-        recipeList.add(new Recipe(
-                1, "Tomato Beef", 3
-        ));
 
         adapter = new RecipeAdapter(this, recipeList);
 

@@ -29,9 +29,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,9 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private AutoCompleteTextView typeIngredient;
 
-    private ArrayList<Integer> indices;
-    private ArrayList<Double> ratings;
-    private ArrayList<String> titles;
+    private ArrayList<Recipe> recipes;
 
     private Button addBtn;
 
@@ -117,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
             // Instantiate the RequestQueue.
             RequestQueue queue = Volley.newRequestQueue(this);
-            String url ="https://test1-u55kjwwuea-uc.a.run.app" + requestStr;
+            String url ="https://working-u55kjwwuea-uc.a.run.app" + requestStr;
 
             // Request a string response from the provided URL.
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -127,7 +125,23 @@ public class MainActivity extends AppCompatActivity {
                             // Display the first 500 characters of the response string.
                             Log.d("RESPONSE:", response);
                             responseData = response;
+                            System.out.println(responseData);
 
+                            recipes = new ArrayList<Recipe>();
+
+                            JsonObject jsonObject = new JsonParser().parse(responseData).getAsJsonObject();
+
+                            JsonArray arr = jsonObject.getAsJsonArray("items");
+                            for (int i = 0; i < arr.size(); i++) {
+                                int index = Integer.parseInt(arr.get(i).getAsJsonObject().get("index").getAsString());
+                                String title = arr.get(i).getAsJsonObject().get("title").getAsString();
+                                double rating = Double.parseDouble(arr.get(i).getAsJsonObject().get("rating").getAsString());
+
+                                Recipe newRecipe = new Recipe(index, title, rating);
+                                recipes.add(newRecipe);
+                            }
+
+                            System.out.println(recipes);
                         }
                     }, new Response.ErrorListener() {
                 @Override
@@ -147,6 +161,8 @@ public class MainActivity extends AppCompatActivity {
 
                 System.out.println("LAUNCH RECIPES");
                 Intent launchRecipes = new Intent(this, RecipeActivity.class);
+
+                launchRecipes.putExtra("recipes", recipes);
                 startActivity(launchRecipes);
             } else {
                 Toast.makeText(this, "Failed to get response", Toast.LENGTH_SHORT).show();
