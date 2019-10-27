@@ -57,7 +57,7 @@ def recipe():
     recipe = full_df.iloc[idx]
     
     output = {}
-    output['index'] = recipe['index']
+    output['index'] = idx
     output['directions'] = '\n'.join([d for d in eval(recipe['directions'])])
     output['ingredients'] = '\n'.join([r for r in eval(recipe['ingredients'])])
     output['description'] = recipe['desc'] if pd.notnull(recipe['desc']) else ''
