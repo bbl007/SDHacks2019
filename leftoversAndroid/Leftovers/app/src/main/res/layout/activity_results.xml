@@ -20,7 +20,9 @@
                 android:id="@+id/recipe_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:fontFamily="sans-serif-smallcaps"
+                android:text="Moist brisket with moist briskety sauce and a side of moist brisket"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/rating_text"
