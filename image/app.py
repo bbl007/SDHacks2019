@@ -6,8 +6,8 @@ from flask import Flask, request
 app = Flask(__name__)
 
 
-full_df = pd.read_csv('https://raw.githubusercontent.com/bbl007/SDHacks2019/master/image/full_df.csv',index=False)
-val_ser = full_df.iloc[:, 7:].sum(axis=1)
+full_df = pd.read_csv('https://raw.githubusercontent.com/bbl007/SDHacks2019/master/image/full_df.csv')
+val_ser = full_df.iloc[:, 8:].sum(axis=1)
 ing_ser = full_df['ingredients'].apply(lambda x: x.count('\n')+1)
 
 @app.route('/')
@@ -45,7 +45,7 @@ def recommend():
     
     sorted_food = food_sim.sort_values(by=['similarity'], ascending=False)
     top_n = list(sorted_food.index)[:n]
-    top_meals = temp_full.iloc[top_n]
+    top_meals = temp_full.loc[top_n, :]
     
     title = list(top_meals['title'].values)
     rating = list(top_meals['rating'].values)
