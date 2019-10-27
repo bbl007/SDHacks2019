@@ -7,7 +7,8 @@ app = Flask(__name__)
 
 
 full_df = pd.read_csv('https://raw.githubusercontent.com/bbl007/SDHacks2019/master/image/full_df.csv')
-val_ser = full_df.iloc[:, 7:].sum(axis=1)
+# val_ser = full_df.iloc[:, 7:].sum(axis=1)
+ing_ser = full_df['ingredients'].apply(lambda x: x.count('\n')+1)
 
 @app.route('/')
 def hello_world():
@@ -35,7 +36,7 @@ def recommend():
     no_extra = items.get('no_extra', 0)
     if no_extra:
         has_ing = similarity > 0
-        similarity = similarity - (similarity - val_ser)
+        similarity = similarity - (similarity - ing_ser)
         temp_full = full_df.loc[has_ing]
         food_sim = pd.DataFrame({'similarity':similarity}).loc[has_ing]
     else:
