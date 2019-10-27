@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Recipe> recipes;
 
+    private ToggleButton toggleButton;
     private Button addBtn;
 
     @Override
@@ -90,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        toggleButton = (ToggleButton) findViewById(R.id.toggleButton);
+
         // Scrollable ingredients list
         recyclerView = (RecyclerView) findViewById(R.id.ingred_list);
 
@@ -100,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
-
 
     }
 
@@ -135,7 +137,14 @@ public class MainActivity extends AppCompatActivity {
 
                                 Recipe newRecipe = new Recipe(index, title, rating);
                                 recipes.add(newRecipe);
+
+
                             }
+                            System.out.println("LAUNCH RECIPES");
+                            Intent launchRecipes = new Intent(MainActivity.this, RecipeActivity.class);
+
+                            launchRecipes.putExtra("recipes", recipes);
+                            startActivity(launchRecipes);
 
                             System.out.println(recipes);
                         }
@@ -150,23 +159,9 @@ public class MainActivity extends AppCompatActivity {
             queue.add(stringRequest);
 
 
-            if(responseData != null) {
-
-                Toast.makeText(this, "HELLO" + responseData.indexOf(']'), Toast.LENGTH_LONG).show();
-
-
-                System.out.println("LAUNCH RECIPES");
-                Intent launchRecipes = new Intent(this, RecipeActivity.class);
-
-                launchRecipes.putExtra("recipes", recipes);
-                startActivity(launchRecipes);
-            } else {
-                Toast.makeText(this, "Failed to get response", Toast.LENGTH_SHORT).show();
-            }
-
         } else {
             Toast.makeText(this, "Add Ingredients", Toast.LENGTH_SHORT).show();
-        }
+    }
 
 
     }
@@ -255,8 +250,14 @@ public class MainActivity extends AppCompatActivity {
 
     private String getRequestStr(){
         String requestStr = "/recommend?ing=" + ingMatches.get(0);
-        for(String match: ingMatches) {
-            requestStr = requestStr + "," + match;
+        for(int i = 1; i < ingMatches.size(); i++) {
+            String match = ingMatches.get(i);
+
+            requestStr = "," + match;
+        }
+
+        if(toggleButton.isChecked()) {
+            requestStr += "&nextra=1";
         }
 
         requestStr = requestStr.replace(" ", "_");

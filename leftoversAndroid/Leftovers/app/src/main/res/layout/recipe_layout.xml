@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/arbutus_slab"
-                    android:text="5.0"
+                    android:text="Rating: 5.0/5.0"
                     android:textColor="#555" />
             </LinearLayout>
         </LinearLayout>

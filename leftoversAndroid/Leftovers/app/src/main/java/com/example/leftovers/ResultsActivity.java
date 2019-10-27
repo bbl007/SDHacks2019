@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -35,6 +36,8 @@ public class ResultsActivity extends AppCompatActivity {
 
     TextView titleText, ratingText, descText, ingText, insnText;
 
+    ToggleButton favs;
+
     String responseData;
     Recipe newRecipe;
 
@@ -44,10 +47,12 @@ public class ResultsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_results);
 
         titleText = findViewById(R.id.recipe_title);
-        ratingText = findViewById(R.id.recipe_rating);
+        ratingText = findViewById(R.id.rating_text);
         descText = findViewById(R.id.description_text);
         ingText = findViewById(R.id.ingredients_text);
         insnText = findViewById(R.id.instructions_text);
+
+        favs = findViewById(R.id.toggleButton);
 
         Intent currIntent = getIntent();
         String recInd = (currIntent.getExtras().getString("chosen"));
@@ -83,6 +88,7 @@ public class ResultsActivity extends AppCompatActivity {
                             newRecipe = new Recipe(index, title, ingredients, description, instructions, rating);
 
                             titleText.setText(newRecipe.getName());
+                            ratingText.setText("Rating: " + newRecipe.getRating() + "/5.0");
                             ingText.setText(newRecipe.getIngredients());
                             descText.setText(newRecipe.getDescription());
                             insnText.setText(newRecipe.getInstructions());
@@ -99,11 +105,7 @@ public class ResultsActivity extends AppCompatActivity {
 
         queue.add(stringRequest);
 
-
-
-
-
-
+        
 
     }
 

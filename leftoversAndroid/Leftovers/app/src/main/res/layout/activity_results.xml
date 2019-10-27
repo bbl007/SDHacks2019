@@ -41,8 +41,20 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:fontFamily="@font/arbutus_slab"
-                android:text="5.0"
+                android:text="Rating: 5.0/5.0"
                 android:textAlignment="center" />
+
+            <ToggleButton
+                android:id="@+id/toggleButton2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:onClick="addFavs"
+                android:text="ToggleButton"
+                android:textOff="Add to Favorites"
+                android:textOn="Remove from Favorites" />
 
             <TextView
                 android:id="@+id/description_text"

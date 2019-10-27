@@ -72,6 +72,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         Recipe recipe = recipeList.get(i);
 
         RecipeViewHolder.name.setText(recipe.getName());
-        RecipeViewHolder.rating.setText(String.valueOf(recipe.getRating()));
+        RecipeViewHolder.rating.setText("Rating: " + recipe.getRating() + "/5.0");
     }
 }

@@ -23,6 +23,13 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".RegistrationActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait"/>
+
 
         <activity android:name=".SplashActivity" android:theme="@style/SplashTheme">
             <intent-filter>
