@@ -2,14 +2,14 @@ package com.example.leftovers;
 
 public class Recipe implements java.io.Serializable {
     private String name;
-    private String[] ingredients;
+    private String ingredients;
     private String description;
 
     private String instructions;
     private double rating;
     private int index;
 
-    public Recipe(int index, String name, String[] ingredients, String description, String instructions, double rating) {
+    public Recipe(int index, String name, String ingredients, String description, String instructions, double rating) {
         this.index = index;
         this.name = name;
         this.ingredients = ingredients;
@@ -48,11 +48,11 @@ public class Recipe implements java.io.Serializable {
         this.description = description;
     }
 
-    public String[] getIngredients() {
+    public String getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(String[] ingredients) {
+    public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
     }
 

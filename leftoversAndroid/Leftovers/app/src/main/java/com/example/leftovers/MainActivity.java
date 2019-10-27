@@ -109,10 +109,6 @@ public class MainActivity extends AppCompatActivity {
         if(ingMatches.size() > 0){
             String requestStr = getRequestStr();
 
-
-            final TextView textView = (TextView) findViewById(R.id.text);
-            // ...
-
             // Instantiate the RequestQueue.
             RequestQueue queue = Volley.newRequestQueue(this);
             String url ="https://working-u55kjwwuea-uc.a.run.app" + requestStr;
