@@ -34,12 +34,17 @@ def recommend():
         
     no_extra = items.get('no_extra', 0)
     if no_extra:
-        similarity -= val_ser
-        
-    food_sim = pd.DataFrame({'similarity':similarity})
+        has_ing = similarity > 0
+        similarity = similarity - (similarity - val_ser)
+        temp_full = full_df.loc[has_ing]
+        food_sim = pd.DataFrame({'similarity':similarity}).loc[has_ing]
+    else:
+        temp_full = full_df
+        food_sim = pd.DataFrame({'similarity':similarity})
+    
     sorted_food = food_sim.sort_values(by=['similarity'], ascending=False)
     top_n = list(sorted_food.index)[:n]
-    top_meals = full_df.iloc[top_n]
+    top_meals = temp_full.iloc[top_n]
     
     title = list(top_meals['title'].values)
     rating = list(top_meals['rating'].values)
