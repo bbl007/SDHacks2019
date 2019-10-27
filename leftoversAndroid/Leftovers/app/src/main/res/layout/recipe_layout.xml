@@ -32,7 +32,7 @@
                     android:id="@+id/recipe_rating"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-smallcaps"
+                    android:fontFamily="@font/arbutus_slab"
                     android:text="5.0"
                     android:textColor="#555" />
             </LinearLayout>
