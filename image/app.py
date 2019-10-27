@@ -63,7 +63,7 @@ def recipe():
     output['rating'] = recipe['rating']
     output['title'] = recipe['title']
     
-    return output
+    return {'items':[output]}
 
 if __name__ == '__main__':
     app.run(debug=True)
