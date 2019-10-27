@@ -26,7 +26,7 @@ def test():
 
 #class Recommender(Resource):
 @app.route('/recommend')
-def get1():
+def recommend():
     items = request.args
     ingredients = items.get('ing', '')
     ingredients = ingredients.split(',')
@@ -36,11 +36,10 @@ def get1():
     similarity = np.zeros(len(full_df))
     for ing in ingredients:
         similarity += full_df[ing]
-
+        
     food_sim = pd.DataFrame({'similarity':similarity})
     top_n = list(food_sim.sort_values(by=['similarity'], ascending=False).index)[:n]
     top_meals = full_df.iloc[top_n]
-    
     
     output = {}
     output['title'] = list(top_meals['title'].values)
@@ -48,9 +47,9 @@ def get1():
     output['index'] = top_n  
     return output
 
-#class Ingredients_Recipe(Resource):
+
 @app.route('/recipe')
-def get2():
+def recipe():
     items = request.args
     idx = int(items.get('index', -1))
     recipe = full_df.iloc[idx]
@@ -61,10 +60,5 @@ def get2():
     output['description'] = recipe['desc'] 
     return output
 
-
-#api.add_resource(Recommender, '/recommend')
-#api.add_resource(Ingredients_Recipe, '/recipe')
-#api.add_resource(Testing, '/test')
-
 if __name__ == '__main__':
-    app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))
+    app.run(debug=True)
