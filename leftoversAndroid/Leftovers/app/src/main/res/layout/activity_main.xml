@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#607D8B"
+        android:background="#FFFFFF"
         android:orientation="vertical">
 
         <LinearLayout
@@ -45,12 +45,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight=".4"
-                    android:backgroundTint="#FFFFFF"
+                    android:backgroundTint="#FFFF"
                     android:completionThreshold="2"
                     android:fontFamily="sans-serif-smallcaps"
                     android:hint="ingredient name"
                     android:textColor="#FFFFFF"
-                    android:textColorHint="#E8FFFFFF" />
+                    android:textColorHint="#E1FFFFFF" />
 
                 <Button
                     android:id="@+id/add_btn"
